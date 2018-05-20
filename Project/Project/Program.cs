@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Project
 {
@@ -9,7 +9,6 @@ namespace Project
     {
         static List<string> data = new List<string>();
         static string path;
-        static object locker = new object();
 
         static void Main(string[] args)
         {
@@ -30,47 +29,21 @@ namespace Project
             }
             else
             {
-                var waitHandle = new AutoResetEvent(false);
-                CreateScanThread(new ScanData(path, waitHandle));
-                waitHandle.WaitOne();
+                CreateScanTask(path);
             }
         }
 
-        static void CreateScanThread(ScanData scanData)
+        static void CreateScanTask(string scanPath)
         {
-            new Thread(Scan).Start(scanData);
-        }
-
-        static void Scan(object scanDataObj)
-        {
-            var scanData = scanDataObj as ScanData;
-                    
-            lock (locker)
+            var task = Task.Factory.StartNew(() =>
             {
-                data.Add(scanData.path);
-                Console.WriteLine(scanData.path);
-            }
+                data.Add(scanPath);
+                Console.WriteLine(scanPath);
 
-            foreach (string dirPath in Directory.GetDirectories(scanData.path))
-            {
-                AutoResetEvent waitHandle = new AutoResetEvent(false);
-                CreateScanThread(new ScanData(dirPath, waitHandle));
-                waitHandle.WaitOne();
-            }
-
-            scanData.waitHandle.Set();
-        }
-    }
-
-    class ScanData
-    {
-        public string path;
-        public AutoResetEvent waitHandle;
-
-        public ScanData(string path, AutoResetEvent waitHandle)
-        {
-            this.path = path;
-            this.waitHandle = waitHandle;
+                foreach (string dirPath in Directory.GetDirectories(scanPath))
+                    CreateScanTask(dirPath);
+            });
+            task.Wait();
         }
     }
 }
