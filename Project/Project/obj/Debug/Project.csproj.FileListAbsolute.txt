@@ -1,0 +1,7 @@
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\bin\Debug\Project.exe.config
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\bin\Debug\Project.exe
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\bin\Debug\Project.pdb
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\obj\Debug\Project.csprojResolveAssemblyReference.cache
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\obj\Debug\Project.csproj.CoreCompileInputs.cache
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\obj\Debug\Project.exe
+C:\Projects\C#\ThreadsTaskGithub\Project\Project\obj\Debug\Project.pdb
